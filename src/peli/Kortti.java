@@ -49,24 +49,7 @@ public class Kortti {
 			return arvo;
 		}
 		
-		public Nimi arvostaNimi(int arvo) {
-			switch (arvo) {
-				case 1: return Nimi.ÄSSÄ;
-		        case 2: return Nimi.KAKKONEN;
-		        case 3: return Nimi.KOLMONEN;
-		        case 4: return Nimi.NELONEN;
-		        case 5: return Nimi.VIITONEN;
-		        case 6: return Nimi.KUUTONEN;
-		        case 7: return Nimi.SEISKA;
-		        case 8: return Nimi.KASI;
-		        case 9: return Nimi.YSI;
-		        case 10: return Nimi.KYMPPI;
-		        case 11: return Nimi.JÄTKÄ;
-		        case 12: return Nimi.AKKA;
-		        case 13: return Nimi.KURKO;
-		        default: return null;
-			}
-		}
+		
 	}
 	
 	
