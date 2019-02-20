@@ -1,6 +1,13 @@
 package peli;
 
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 import henkilot.*;
 
@@ -9,11 +16,33 @@ public class Pelipoyta {
 	private Henkilo[] henkilot;
 	private int kierros = 0;
 	private Scanner skanneri;
-	private final int MAX = 1000000;
+	private ArrayList<Integer> peliHistoria;
 
 	public Pelipoyta() {
 		this.pakka = new Pakka();
 		this.skanneri = new Scanner(System.in);
+		this.peliHistoria = new ArrayList<Integer>();
+	}
+
+	public ArrayList<Integer> annaPeliHistoria() {
+		return peliHistoria;
+	}
+
+	public void teeTiedosto(ArrayList<Integer> peliHistoria, String polku) {
+		try {
+			File tiedosto = new File(polku);
+			FileOutputStream striimi = new FileOutputStream(tiedosto);
+			OutputStreamWriter osw = new OutputStreamWriter(striimi);
+			BufferedWriter w = new BufferedWriter(osw);
+			for (int k = 0; k < peliHistoria.size(); k++) {
+				w.write(k + " " + Integer.toString(peliHistoria.get(k)));
+				w.newLine();
+			}
+			w.close();
+
+		} catch (IOException e) {
+			System.err.println("Tekstin kirjoittaminen tiedostoon epäonnistui.");
+		}
 	}
 
 	public int annaKierros() {
@@ -51,6 +80,7 @@ public class Pelipoyta {
 		} while (i == null);
 
 		((Pelaaja) henkilot[0]).asetaOmaisuus(i);
+		peliHistoria.add(((Pelaaja) henkilot[0]).annaOmaisuus());
 
 	}
 
@@ -104,6 +134,8 @@ public class Pelipoyta {
 		} else {
 			this.havio();
 		}
+
+		peliHistoria.add(((Pelaaja) henkilot[0]).annaOmaisuus());
 
 	}
 
