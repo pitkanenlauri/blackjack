@@ -13,6 +13,10 @@ public class PelinSuorittaja {
 
 		do {
 			poyta.uusiKierros();
+			if (((Pelaaja) poyta.annaHenkilot()[0]).annaOmaisuus() == 0) {
+				System.out.println("\nAika lähteä kotiin. Rahat on loppu.");
+				break;
+			}
 			System.out.println("Haluatko pelata uuden käden? (Vastaa k/e)");
 			char x = poyta.annaSkanneri().next().charAt(0);
 			if (x == 'k') {
