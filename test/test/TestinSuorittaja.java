@@ -1,10 +1,10 @@
 package test;
 
 import test.Testi;
-import pelitestit.KorttiTestit;;
+import pelitestit.*;
 
 public class TestinSuorittaja {
-	static Testi[] testit = { new KorttiTestit() };
+	static Testi[] testit = { new PelipoytaTestit() };
 
 	public static void main(String[] args) {
 		suoritaKaikkiTestit();
