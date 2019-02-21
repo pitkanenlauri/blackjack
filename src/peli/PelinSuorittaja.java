@@ -18,10 +18,10 @@ public class PelinSuorittaja {
 				break;
 			}
 			while (true) {
-				System.out.println("Haluatko pelata uuden käden? (Vastaa k/e)");
+				System.out.println("\nHaluatko pelata uuden käden? (Vastaa k/e)");
 				char x = poyta.annaSkanneri().next().charAt(0);
 				if (x == 'k') {
-					continue;
+					break;
 				} else if (x == 'e') {
 					haluaaJatkaa = false;
 					break;
@@ -33,7 +33,7 @@ public class PelinSuorittaja {
 		} while (haluaaJatkaa);
 
 		do {
-			System.out.println("Haluatko tekstitiedoston omaisuus per kierros pelistäsi? (Vastaa k/e)");
+			System.out.println("\nHaluatko tekstitiedoston omaisuus per kierros pelistäsi? (Vastaa k/e)");
 			char x = poyta.annaSkanneri().next().charAt(0);
 			if (x == 'k') {
 				System.out.println(
