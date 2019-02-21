@@ -29,6 +29,7 @@ public class Pelipoyta {
 
 	public void teeTiedosto(ArrayList<Integer> peliHistoria, String polku) {
 		try {
+			polku = "data.txt";
 			File tiedosto = new File(polku);
 			FileOutputStream striimi = new FileOutputStream(tiedosto);
 			OutputStreamWriter osw = new OutputStreamWriter(striimi);
@@ -61,7 +62,6 @@ public class Pelipoyta {
 	}
 
 	public void pelinAlustus() {
-
 		this.henkilot = new Henkilo[] { new Pelaaja(), new Jakaja() };
 		System.out.println("Tervetuloa Black Jack pöytään!" + "\n");
 		System.out.println("Mikä on nimesi?");
@@ -70,8 +70,8 @@ public class Pelipoyta {
 		Integer i = null;
 		do {
 			System.out.println("Paljonko sinulla on rahaa?");
-			String s = skanneri.nextLine();
 			try {
+				String s = skanneri.nextLine();
 				i = Integer.parseInt(s);
 				if (i <= 0) {
 					i = null;
@@ -89,7 +89,7 @@ public class Pelipoyta {
 	}
 
 	public void uusiKierros() {
-
+		Pelaaja pelaaja = (Pelaaja) henkilot[0];
 		for (Henkilo h : henkilot) {
 			if (h.annaKasi().size() != 0) {
 				h.nollaaKasi();
@@ -99,7 +99,9 @@ public class Pelipoyta {
 		pakka.sekoitaPakka();
 		kierros++;
 
-		this.panostus();
+		pelaaja.asetaPanos(this.panos());
+		pelaaja.asetaOmaisuus(pelaaja.annaOmaisuus() - pelaaja.annaPanos());
+		
 
 		for (int j = 0; j < 2; j++) {
 			henkilot[j].uusiKortti(pakka.annaKortti());
@@ -114,23 +116,32 @@ public class Pelipoyta {
 
 		this.tarkistaVoittaja();
 
-		peliHistoria.add(((Pelaaja) henkilot[0]).annaOmaisuus());
+		peliHistoria.add(pelaaja.annaOmaisuus());
 
 	}
 
-	public void panostus() {
-		System.out.println("Aseta " + kierros + ". kierroksen panos:");
-		((Pelaaja) henkilot[0]).asetaPanos(skanneri.nextInt());
-		while (((Pelaaja) henkilot[0]).annaPanos() > ((Pelaaja) henkilot[0]).annaOmaisuus()
-				|| ((Pelaaja) henkilot[0]).annaPanos() <= 0) {
-			System.out.println("Panos kuuluu olla nollan ja omaisuuden väliltä! Omaisuutesi on: "
-					+ ((Pelaaja) henkilot[0]).annaOmaisuus());
-			((Pelaaja) henkilot[0]).asetaPanos(skanneri.nextInt());
-		}
-
-		((Pelaaja) henkilot[0])
-				.asetaOmaisuus(((Pelaaja) henkilot[0]).annaOmaisuus() - ((Pelaaja) henkilot[0]).annaPanos());
+	public int panos() {
+		Pelaaja pelaaja = (Pelaaja) henkilot[0];
+		
+		Integer i = null;
+		do {
+			System.out.println("Aseta " + kierros + ". kierroksen panos:");
+			try {
+				String s = skanneri.nextLine();
+				i = Integer.parseInt(s);
+				if (i <= 0 || i > pelaaja.annaOmaisuus()) {
+					i = null;
+					System.out.println("Panos kuuluu olla nollan ja omaisuuden väliltä! Omaisuutesi on: " + pelaaja.annaOmaisuus());
+					continue;
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("Syotä panos kokonaislukuna!");
+			}
+		} while (i == null);
+		
+		return i;
 	}
+		
 
 	public void tarkistaVoittaja() {
 		if (henkilot[0].annaSumma() < 22) {
@@ -156,7 +167,7 @@ public class Pelipoyta {
 	public void valintaLoop() {
 		while ((henkilot[0].annaSumma() < 21)) {
 			System.out.println("\nHaluatko uuden kortin vai jäädä? (Vastaa k tai j)");
-			char x = skanneri.next().charAt(0);
+			char x = skanneri.nextLine().charAt(0);
 			if (x == 'k') {
 				henkilot[0].uusiKortti(pakka.annaKortti());
 
@@ -176,8 +187,8 @@ public class Pelipoyta {
 	}
 
 	public void voitto() {
-		((Pelaaja) henkilot[0])
-				.asetaOmaisuus(((Pelaaja) henkilot[0]).annaOmaisuus() + ((Pelaaja) henkilot[0]).annaPanos() * 2);
+		Pelaaja pelaaja = (Pelaaja) henkilot[0];
+		pelaaja.asetaOmaisuus(pelaaja.annaOmaisuus() + pelaaja.annaPanos() * 2);
 		this.tulostaLopputulos();
 		System.out.println("\nVOITIT JAKAJAN!");
 	}
@@ -188,8 +199,9 @@ public class Pelipoyta {
 	}
 
 	public void tasapeli() {
-		((Pelaaja) henkilot[0])
-				.asetaOmaisuus(((Pelaaja) henkilot[0]).annaOmaisuus() + ((Pelaaja) henkilot[0]).annaPanos());
+		Pelaaja pelaaja = (Pelaaja) henkilot[0];
+		pelaaja
+				.asetaOmaisuus(pelaaja.annaOmaisuus() + pelaaja.annaPanos());
 		this.tulostaLopputulos();
 		System.out.println("\nTasapeli. Saat panoksesi takaisin.");
 	}
