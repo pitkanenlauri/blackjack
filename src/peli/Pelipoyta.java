@@ -29,7 +29,6 @@ public class Pelipoyta {
 
 	public void teeTiedosto(ArrayList<Integer> peliHistoria, String polku) {
 		try {
-			polku = "data.txt";
 			File tiedosto = new File(polku);
 			FileOutputStream striimi = new FileOutputStream(tiedosto);
 			OutputStreamWriter osw = new OutputStreamWriter(striimi);
