@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.Writer;
 
 import henkilot.*;
 
@@ -35,7 +34,7 @@ public class Pelipoyta {
 			OutputStreamWriter osw = new OutputStreamWriter(striimi);
 			BufferedWriter w = new BufferedWriter(osw);
 			for (int k = 0; k < peliHistoria.size(); k++) {
-				w.write(k + " " + Integer.toString(peliHistoria.get(k)));
+				w.write(k + " " + peliHistoria.get(k));
 				w.newLine();
 			}
 			w.close();
@@ -68,17 +67,22 @@ public class Pelipoyta {
 		System.out.println("Mikä on nimesi?");
 		henkilot[0].asetaNimi(skanneri.nextLine());
 
-		Integer i = -1;
+		Integer i = null;
 		do {
 			System.out.println("Paljonko sinulla on rahaa?");
 			String s = skanneri.nextLine();
 			try {
 				i = Integer.parseInt(s);
+				if (i<=0) {
+					i=null;
+					System.out.println("Omaisuus pitää olla POSITIIVINEN kokonaisluku!");
+					continue;
+				}
 			} catch (NumberFormatException e) {
 				System.out.println("Syotä omaisuus kokonaislukuna!");
 			}
 		} while (i == null);
-
+		
 		((Pelaaja) henkilot[0]).asetaOmaisuus(i);
 		peliHistoria.add(((Pelaaja) henkilot[0]).annaOmaisuus());
 
@@ -97,8 +101,8 @@ public class Pelipoyta {
 
 		System.out.println("Aseta " + kierros + ". kierroksen panos:");
 		((Pelaaja) henkilot[0]).asetaPanos(skanneri.nextInt());
-		while (((Pelaaja) henkilot[0]).annaPanos() > ((Pelaaja) henkilot[0]).annaOmaisuus()) {
-			System.out.println("Panos liian suuri!");
+		while (((Pelaaja) henkilot[0]).annaPanos() > ((Pelaaja) henkilot[0]).annaOmaisuus() || ((Pelaaja) henkilot[0]).annaPanos()<=0) {
+			System.out.println("Panos kuuluu olla nollan ja omaisuuden väliltä! Omaisuutesi on: " + ((Pelaaja) henkilot[0]).annaOmaisuus());
 			((Pelaaja) henkilot[0]).asetaPanos(skanneri.nextInt());
 		}
 

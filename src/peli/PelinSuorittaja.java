@@ -17,19 +17,20 @@ public class PelinSuorittaja {
 				System.out.println("\nAika lähteä kotiin. Rahat on loppu.");
 				break;
 			}
-			System.out.println("Haluatko pelata uuden käden? (Vastaa k/e)");
-			char x = poyta.annaSkanneri().next().charAt(0);
-			if (x == 'k') {
-				poyta.annaHenkilot()[0].uusiKortti(poyta.annaPakka().annaKortti());
-				continue;
-			} else if (x == 'e') {
-				haluaaJatkaa = false;
-				break;
-			} else {
-				System.out.println("Tarkista syöte!");
-				continue;
+			while (true) {
+				System.out.println("Haluatko pelata uuden käden? (Vastaa k/e)");
+				char x = poyta.annaSkanneri().next().charAt(0);
+				if (x == 'k') {
+					continue;
+				} else if (x == 'e') {
+					haluaaJatkaa = false;
+					break;
+				} else {
+					System.out.println("Tarkista syöte!");
+					continue;
+				}
 			}
-		} while (((Pelaaja) poyta.annaHenkilot()[0]).annaOmaisuus() > 0 && haluaaJatkaa);
+		} while (haluaaJatkaa);
 
 		do {
 			System.out.println("Haluatko tekstitiedoston omaisuus per kierros pelistäsi? (Vastaa k/e)");
