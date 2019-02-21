@@ -188,7 +188,11 @@ public class Pelipoyta {
 
 	public void voitto() {
 		Pelaaja pelaaja = (Pelaaja) henkilot[0];
-		pelaaja.asetaOmaisuus(pelaaja.annaOmaisuus() + pelaaja.annaPanos() * 2);
+		if (pelaaja.annaOmaisuus() + pelaaja.annaPanos() * 2>0) {
+			pelaaja.asetaOmaisuus(pelaaja.annaOmaisuus() + pelaaja.annaPanos() * 2);
+		} else {
+			pelaaja.asetaOmaisuus(pelaaja.annaOmaisuus() + pelaaja.annaPanos());
+		}
 		this.tulostaLopputulos();
 		System.out.println("\nVOITIT JAKAJAN!");
 	}
