@@ -4,7 +4,7 @@ import test.Testi;
 import pelitestit.*;
 
 public class TestinSuorittaja {
-	static Testi[] testit = { new PelipoytaTestit() };
+	static Testi[] testit = { new KorttiTestit() };
 
 	public static void main(String[] args) {
 		suoritaKaikkiTestit();

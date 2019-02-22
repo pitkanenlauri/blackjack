@@ -1,12 +1,14 @@
 package peli;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
 
 import henkilot.*;
 
@@ -29,6 +31,10 @@ public class Pelipoyta {
 
 	public void teeTiedosto(ArrayList<Integer> peliHistoria, String polku) {
 		try {
+			if (((Pelaaja) henkilot[0]).annaNimi().equals("Lauri")) {
+				String paiva = new SimpleDateFormat("yyyyMMdd_hhmmss").format(new Date());
+				polku = "C:\\Users\\Lauri\\Desktop\\pelit\\peliHistoria" + paiva + ".txt";
+			}
 			File tiedosto = new File(polku);
 			FileOutputStream striimi = new FileOutputStream(tiedosto);
 			OutputStreamWriter osw = new OutputStreamWriter(striimi);
@@ -107,7 +113,7 @@ public class Pelipoyta {
 			henkilot[j].uusiKortti(pakka.annaKortti());
 		}
 
-		System.out.println("______________________________________________________________________");
+//		System.out.println("______________________________________________________________________");
 
 		this.tulostaTilanne();
 
@@ -140,7 +146,6 @@ public class Pelipoyta {
 		
 		return i;
 	}
-		
 
 	public void tarkistaVoittaja() {
 		if (henkilot[0].annaSumma() < 22) {
@@ -181,7 +186,7 @@ public class Pelipoyta {
 				continue;
 			}
 		}
-		System.out.print("--------------------------------------------------------------");
+//		System.out.print("--------------------------------------------------------------");
 
 	}
 
@@ -210,12 +215,14 @@ public class Pelipoyta {
 	}
 
 	public void tulostaTilanne() {
+		System.out.println("______________________________________________________________________");
 		System.out.println("\n" + ((Jakaja) henkilot[1]).piilotettuToString());
 		System.out
 				.println("\n" + ((Pelaaja) henkilot[0]).toString() + "\nPanos: " + ((Pelaaja) henkilot[0]).annaPanos());
 	}
 
 	public void tulostaLopputulos() {
+		System.out.println("______________________________________________________________________");
 		System.out.println("\n" + ((Jakaja) henkilot[1]).toString());
 		System.out.println("\n" + ((Pelaaja) henkilot[0]).toString());
 	}
