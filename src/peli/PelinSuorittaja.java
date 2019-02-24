@@ -26,10 +26,15 @@ public class PelinSuorittaja {
 			System.out.println("\nHaluatko tekstitiedoston omaisuus per kierros pelistäsi? (Vastaa k/e)");
 			char x = poyta.annaSkanneri().next().charAt(0);
 			if (x == 'k') {
-				System.out.println("Kirjoita polku jonne haluat tekstitiedoston tallennettavan. "
+				System.out.println("\nKirjoita polku jonne haluat tekstitiedoston tallennettavan. "
 						+ "\nEsim: C:\\Users\\Kayttaja\\Desktop\\peliHistoria.txt");
 				String polku = poyta.annaSkanneri().next();
 				poyta.tulostaGnuPlotKomento(poyta.teeTiedosto(poyta.annaPeliHistoria(), polku));
+				System.out.println("\nPaina enter kun olet kopioinut polun.");
+				try {
+					System.in.read();
+				} catch (IOException e) {
+				}
 				break;
 			} else if (x == 'e') {
 				break;
@@ -38,12 +43,7 @@ public class PelinSuorittaja {
 				continue;
 			}
 		} while (true);
-
-		try {
-			System.in.read();
-		} catch (IOException e) {
-		}
-
+		
 		poyta.suljeSkanneri();
 
 		System.out.println("\nTervetuloa uudelleen " + poyta.annaHenkilot()[0].annaNimi() + "!");
