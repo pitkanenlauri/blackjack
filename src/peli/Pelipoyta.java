@@ -23,30 +23,9 @@ public class Pelipoyta {
 		this.skanneri = new Scanner(System.in);
 		this.peliHistoria = new ArrayList<Integer>();
 	}
-
+	
 	public ArrayList<Integer> annaPeliHistoria() {
 		return peliHistoria;
-	}
-
-	public void teeTiedosto(ArrayList<Integer> peliHistoria, String polku) {
-		try {
-			if (((Pelaaja) henkilot[0]).annaNimi().equals("Lauri")) {
-				String paiva = new SimpleDateFormat("yyyyMMdd_hhmmss").format(new Date());
-				polku = "C:\\Users\\Lauri\\Desktop\\pelit\\peliHistoria" + paiva + ".txt";
-			}
-			File tiedosto = new File(polku);
-			FileOutputStream striimi = new FileOutputStream(tiedosto);
-			OutputStreamWriter osw = new OutputStreamWriter(striimi);
-			BufferedWriter w = new BufferedWriter(osw);
-			for (int k = 0; k < peliHistoria.size(); k++) {
-				w.write(k + " " + peliHistoria.get(k));
-				w.newLine();
-			}
-			w.close();
-
-		} catch (IOException e) {
-			System.err.println("Tekstin kirjoittaminen tiedostoon ep‰onnistui.");
-		}
 	}
 
 	public int annaKierros() {
@@ -70,7 +49,38 @@ public class Pelipoyta {
 		System.out.println("Tervetuloa Black Jack pˆyt‰‰n!" + "\n");
 		System.out.println("Mik‰ on nimesi?");
 		henkilot[0].asetaNimi(skanneri.nextLine());
+		((Pelaaja) henkilot[0]).asetaOmaisuus(this.sisaanosto());
+		peliHistoria.add(((Pelaaja) henkilot[0]).annaOmaisuus());
 
+	}
+
+	public void uusiKierros() {
+
+		Pelaaja pelaaja = (Pelaaja) henkilot[0];
+		for (Henkilo h : henkilot) {
+			if (h.annaKasi().size() != 0) {
+				h.nollaaKasi();
+			}
+		}
+
+		pakka.sekoitaPakka();
+		kierros++;
+
+		pelaaja.asetaPanos(this.panostus());
+		pelaaja.asetaOmaisuus(pelaaja.annaOmaisuus() - pelaaja.annaPanos());
+
+		for (int j = 0; j < 2; j++) {
+			henkilot[j].uusiKortti(pakka.annaKortti());
+			henkilot[j].uusiKortti(pakka.annaKortti());
+		}
+		
+		this.tulostaTilanne();
+		this.valintaLoop();
+		this.tarkistaVoittaja();
+		peliHistoria.add(pelaaja.annaOmaisuus());
+	}
+	
+	public int sisaanosto() {
 		Integer i = null;
 		do {
 			System.out.println("Paljonko sinulla on rahaa?");
@@ -82,46 +92,19 @@ public class Pelipoyta {
 					System.out.println("Omaisuus pit‰‰ olla POSITIIVINEN kokonaisluku!");
 					continue;
 				}
+				if (i>1000000) {
+					i=null;
+					System.out.println("Maksimi sis‰‰nosto on miljoona.");
+					continue;
+				}
 			} catch (NumberFormatException e) {
-				System.out.println("Syot‰ omaisuus kokonaislukuna!");
+				System.out.println("Syot‰ omaisuus kokonaislukuna! Maksimi sis‰‰nosto on miljoona.");
 			}
 		} while (i == null);
-
-		((Pelaaja) henkilot[0]).asetaOmaisuus(i);
-		peliHistoria.add(((Pelaaja) henkilot[0]).annaOmaisuus());
-
+		return i;
 	}
 
-	public void uusiKierros() {
-		Pelaaja pelaaja = (Pelaaja) henkilot[0];
-		for (Henkilo h : henkilot) {
-			if (h.annaKasi().size() != 0) {
-				h.nollaaKasi();
-			}
-		}
-
-		pakka.sekoitaPakka();
-		kierros++;
-
-		pelaaja.asetaPanos(this.panos());
-		pelaaja.asetaOmaisuus(pelaaja.annaOmaisuus() - pelaaja.annaPanos());
-
-		for (int j = 0; j < 2; j++) {
-			henkilot[j].uusiKortti(pakka.annaKortti());
-			henkilot[j].uusiKortti(pakka.annaKortti());
-		}
-
-		this.tulostaTilanne();
-
-		this.valintaLoop();
-
-		this.tarkistaVoittaja();
-
-		peliHistoria.add(pelaaja.annaOmaisuus());
-
-	}
-
-	public int panos() {
+	public int panostus() {
 		Pelaaja pelaaja = (Pelaaja) henkilot[0];
 
 		Integer i = null;
@@ -167,21 +150,28 @@ public class Pelipoyta {
 
 	public void valintaLoop() {
 		while ((henkilot[0].annaSumma() < 21)) {
-			System.out.println("\nHaluatko uuden kortin vai j‰‰d‰? (Vastaa k tai j)");
-			char x = skanneri.nextLine().charAt(0);
+			Character x = null;
+			do {
+				System.out.println("Haluatko uuden kortin vai j‰‰d‰? (Vastaa k/j)");
+				try {
+					x = skanneri.nextLine().charAt(0);
+					if (x != 'j' && x != 'k') {
+						x = null;
+						System.out.println("Tarkista syˆte!");
+						continue;
+					}
+				} catch (StringIndexOutOfBoundsException e) {
+					System.out.println("Tarkista syˆte!");
+				}
+			} while (x == null);
+			
 			if (x == 'k') {
 				henkilot[0].uusiKortti(pakka.annaKortti());
-
-				this.tulostaTilanne();
-
+				if (henkilot[0].annaSumma() < 21) 
+					this.tulostaTilanne();
 				continue;
-
-			} else if (x == 'j') {
+			} else
 				break;
-			} else {
-				System.out.println("Tarkista syˆte!");
-				continue;
-			}
 		}
 	}
 
@@ -193,32 +183,53 @@ public class Pelipoyta {
 			pelaaja.asetaOmaisuus(pelaaja.annaOmaisuus() + pelaaja.annaPanos());
 		}
 		this.tulostaLopputulos();
-		System.out.println("\nVOITIT JAKAJAN!");
+		System.out.println("VOITIT JAKAJAN!");
 	}
 
 	public void havio() {
 		this.tulostaLopputulos();
-		System.out.println("\nJakaja voitti.");
+		System.out.println("Jakaja voitti.");
 	}
 
 	public void tasapeli() {
 		Pelaaja pelaaja = (Pelaaja) henkilot[0];
 		pelaaja.asetaOmaisuus(pelaaja.annaOmaisuus() + pelaaja.annaPanos());
 		this.tulostaLopputulos();
-		System.out.println("\nTasapeli. Saat panoksesi takaisin.");
+		System.out.println("Tasapeli. Saat panoksesi takaisin.");
+	}
+	
+	public boolean tarkistaJatkaminen() {
+		Character x = null;
+		do {
+			System.out.println("Haluatko pelata uuden k‰den? (Vastaa k/e)");
+			try {
+				x = skanneri.nextLine().charAt(0);
+				if (x != 'e' && x != 'k') {
+					x = null;
+					System.out.println("Tarkista syˆte!");
+					continue;
+				}
+			} catch (StringIndexOutOfBoundsException e) {
+				System.out.println("Tarkista syˆte!");
+			}
+		} while (x == null);
+		if (x == 'k')
+			return true;
+		else
+			return false;
 	}
 
 	public void tulostaTilanne() {
 		cls();
 		System.out.println("\n" + ((Jakaja) henkilot[1]).piilotettuToString());
 		System.out
-				.println("\n" + ((Pelaaja) henkilot[0]).toString() + "\nPanos: " + ((Pelaaja) henkilot[0]).annaPanos());
+				.println("\n" + ((Pelaaja) henkilot[0]).toString() + "\nPanos: " + ((Pelaaja) henkilot[0]).annaPanos() + "\n");
 	}
 
 	public void tulostaLopputulos() {
 		cls();
 		System.out.println("\n" + ((Jakaja) henkilot[1]).toString());
-		System.out.println("\n" + ((Pelaaja) henkilot[0]).toString());
+		System.out.println("\n" + ((Pelaaja) henkilot[0]).toString() + "\n");
 	}
 
 	public static void cls(){
@@ -231,7 +242,36 @@ public class Pelipoyta {
 	}
 	
 	public void suljeSkanneri() {
+
 		skanneri.close();
 	}
+	
+	public void teeTiedosto(ArrayList<Integer> peliHistoria, String polku) {
+		try {
+			if (((Pelaaja) henkilot[0]).annaNimi().equals("Lauri")) {
+				String paiva = new SimpleDateFormat("yyyyMMdd_hhmmss").format(new Date());
+				polku = "C:\\Users\\Lauri\\Desktop\\pelit\\peliHistoria" + paiva + ".txt";
+			}
+			if (((Pelaaja) henkilot[0]).annaNimi().equals("Santeri")) {
+				String paiva = new SimpleDateFormat("yyyyMMdd_hhmmss").format(new Date());
+				polku = "C:\\Users\\Omistaja\\Desktop\\BlackJackPelit\\peliHistoria" + paiva + ".txt";
+			}
+			File tiedosto = new File(polku);
+			FileOutputStream striimi = new FileOutputStream(tiedosto);
+			OutputStreamWriter osw = new OutputStreamWriter(striimi);
+			BufferedWriter w = new BufferedWriter(osw);
+			w.write("#kierros #omaisuus");
+			w.newLine();
+			for (int k = 0; k < peliHistoria.size(); k++) {
+				w.write(k + " " + peliHistoria.get(k));
+				w.newLine();
+			}
+			w.close();
+
+		} catch (IOException e) {
+			System.err.println("Tekstin kirjoittaminen tiedostoon ep‰onnistui.");
+		}
+	}
+	
 
 }

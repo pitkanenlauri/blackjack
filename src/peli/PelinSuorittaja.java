@@ -17,19 +17,8 @@ public class PelinSuorittaja {
 				System.out.println("\nAika lähteä kotiin. Rahat on loppu.");
 				break;
 			}
-			while (true) {
-				System.out.println("\nHaluatko pelata uuden käden? (Vastaa k/e)");
-				char x = poyta.annaSkanneri().nextLine().charAt(0);
-				if (x == 'k') {
-					break;
-				} else if (x == 'e') {
-					haluaaJatkaa = false;
-					break;
-				} else {
-					System.out.println("Tarkista syöte!");
-					continue;
-				}
-			}
+			haluaaJatkaa = poyta.tarkistaJatkaminen();
+			
 		} while (haluaaJatkaa);
 
 		do {
