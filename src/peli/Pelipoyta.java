@@ -49,7 +49,7 @@ public class Pelipoyta {
 		System.out.println("Tervetuloa Black Jack pöytään!" + "\n");
 		System.out.println("Mikä on nimesi?");
 		henkilot[0].asetaNimi(skanneri.nextLine());
-		((Pelaaja) henkilot[0]).asetaOmaisuus(this.sisaanosto());
+		((Pelaaja) henkilot[0]).asetaOmaisuus(this.sisaanOsto());
 		peliHistoria.add(((Pelaaja) henkilot[0]).annaOmaisuus());
 
 	}
@@ -80,7 +80,7 @@ public class Pelipoyta {
 		peliHistoria.add(pelaaja.annaOmaisuus());
 	}
 	
-	public int sisaanosto() {
+	public int sisaanOsto() {
 		Integer i = null;
 		do {
 			System.out.println("Paljonko sinulla on rahaa?");
