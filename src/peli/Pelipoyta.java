@@ -98,7 +98,7 @@ public class Pelipoyta {
 					continue;
 				}
 			} catch (NumberFormatException e) {
-				System.out.println("Syotä omaisuus kokonaislukuna! Maksimi sisäänosto on miljoona.");
+				System.out.println("Syötä omaisuus kokonaislukuna! Maksimi sisäänosto on miljoona.");
 			}
 		} while (i == null);
 		return i;
