@@ -1,6 +1,9 @@
 package peli;
 
 import peli.Pelipoyta;
+
+import java.io.IOException;
+
 import henkilot.Pelaaja;
 
 public class PelinSuorittaja {
@@ -28,7 +31,7 @@ public class PelinSuorittaja {
 				System.out.println("Kirjoita polku jonne haluat tekstitiedoston tallennettavan. "
 						+ "\nEsim: C:\\Users\\Kayttaja\\Desktop\\peliHistoria.txt");
 				String polku = poyta.annaSkanneri().next();
-				poyta.teeTiedosto(poyta.annaPeliHistoria(), polku);
+				poyta.tulostaGnuPlotKomento(poyta.teeTiedosto(poyta.annaPeliHistoria(), polku));
 				break;
 			} else if (x == 'e') {
 				break;
@@ -37,6 +40,10 @@ public class PelinSuorittaja {
 				continue;
 			}
 		} while (true);
+		
+		try {
+			System.in.read();
+		} catch (IOException e) {}
 		
 		poyta.suljeSkanneri();
 
