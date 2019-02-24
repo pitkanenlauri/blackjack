@@ -183,19 +183,19 @@ public class Pelipoyta {
 			pelaaja.asetaOmaisuus(pelaaja.annaOmaisuus() + pelaaja.annaPanos());
 		}
 		this.tulostaLopputulos();
-		System.out.println("VOITIT JAKAJAN!");
+		System.out.println("VOITIT JAKAJAN!\n");
 	}
 
 	public void havio() {
 		this.tulostaLopputulos();
-		System.out.println("Jakaja voitti.");
+		System.out.println("Jakaja voitti.\n");
 	}
 
 	public void tasapeli() {
 		Pelaaja pelaaja = (Pelaaja) henkilot[0];
 		pelaaja.asetaOmaisuus(pelaaja.annaOmaisuus() + pelaaja.annaPanos());
 		this.tulostaLopputulos();
-		System.out.println("Tasapeli. Saat panoksesi takaisin.");
+		System.out.println("Tasapeli. Saat panoksesi takaisin.\n");
 	}
 	
 	public boolean tarkistaJatkaminen() {
