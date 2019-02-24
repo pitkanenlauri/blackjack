@@ -1,9 +1,7 @@
 package peli;
 
 import peli.Pelipoyta;
-
 import java.io.IOException;
-
 import henkilot.Pelaaja;
 
 public class PelinSuorittaja {
@@ -21,7 +19,7 @@ public class PelinSuorittaja {
 				break;
 			}
 			haluaaJatkaa = poyta.tarkistaJatkaminen();
-			
+
 		} while (haluaaJatkaa);
 
 		do {
@@ -40,15 +38,18 @@ public class PelinSuorittaja {
 				continue;
 			}
 		} while (true);
-		
+
 		try {
 			System.in.read();
-		} catch (IOException e) {}
-		
+		} catch (IOException e) {
+		}
+
 		poyta.suljeSkanneri();
 
 		System.out.println("\nTervetuloa uudelleen " + poyta.annaHenkilot()[0].annaNimi() + "!");
+
 		poyta.odota(2000);
+		
 	}
 
 }

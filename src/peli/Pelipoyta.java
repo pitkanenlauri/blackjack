@@ -12,19 +12,19 @@ import java.text.SimpleDateFormat;
 import henkilot.*;
 
 public class Pelipoyta {
+
 	private Pakka pakka;
 	private Henkilo[] henkilot;
 	private int kierros = 0;
 	private Scanner skanneri;
 	private ArrayList<Integer> peliHistoria;
-	private int maxOmaisuus;
 
 	public Pelipoyta() {
 		this.pakka = new Pakka();
 		this.skanneri = new Scanner(System.in);
 		this.peliHistoria = new ArrayList<Integer>();
 	}
-	
+
 	public ArrayList<Integer> annaPeliHistoria() {
 		return peliHistoria;
 	}
@@ -52,12 +52,9 @@ public class Pelipoyta {
 		henkilot[0].asetaNimi(skanneri.nextLine());
 		((Pelaaja) henkilot[0]).asetaOmaisuus(this.sisaanOsto());
 		peliHistoria.add(((Pelaaja) henkilot[0]).annaOmaisuus());
-		maxOmaisuus= ((Pelaaja) henkilot[0]).annaOmaisuus();
-
 	}
 
 	public void uusiKierros() {
-
 		Pelaaja pelaaja = (Pelaaja) henkilot[0];
 		for (Henkilo h : henkilot) {
 			if (h.annaKasi().size() != 0) {
@@ -75,14 +72,14 @@ public class Pelipoyta {
 			henkilot[j].uusiKortti(pakka.annaKortti());
 			henkilot[j].uusiKortti(pakka.annaKortti());
 		}
-		
+
 		this.tulostaTilanne();
 		this.valintaLoop();
 		this.tarkistaVoittaja();
 		peliHistoria.add(pelaaja.annaOmaisuus());
-		
+
 	}
-	
+
 	public int sisaanOsto() {
 		Integer i = null;
 		do {
@@ -95,8 +92,8 @@ public class Pelipoyta {
 					System.out.println("Omaisuus pitää olla POSITIIVINEN kokonaisluku!");
 					continue;
 				}
-				if (i>1000000) {
-					i=null;
+				if (i > 1000000) {
+					i = null;
 					System.out.println("Maksimi sisäänosto on miljoona.");
 					continue;
 				}
@@ -126,7 +123,6 @@ public class Pelipoyta {
 				System.out.println("Syotä panos kokonaislukuna!");
 			}
 		} while (i == null);
-
 		return i;
 	}
 
@@ -167,10 +163,10 @@ public class Pelipoyta {
 					System.out.println("Tarkista syöte!");
 				}
 			} while (x == null);
-			
+
 			if (x == 'k') {
 				henkilot[0].uusiKortti(pakka.annaKortti());
-				if (henkilot[0].annaSumma() < 21) 
+				if (henkilot[0].annaSumma() < 21)
 					this.tulostaTilanne();
 				continue;
 			} else
@@ -200,7 +196,7 @@ public class Pelipoyta {
 		this.tulostaLopputulos();
 		System.out.println("Tasapeli. Saat panoksesi takaisin.\n");
 	}
-	
+
 	public boolean tarkistaJatkaminen() {
 		Character x = null;
 		do {
@@ -225,8 +221,8 @@ public class Pelipoyta {
 	public void tulostaTilanne() {
 		cls();
 		System.out.println(((Jakaja) henkilot[1]).piilotettuToString());
-		System.out
-				.println("\n" + ((Pelaaja) henkilot[0]).toString() + "\nPanos: " + ((Pelaaja) henkilot[0]).annaPanos() + "\n");
+		System.out.println(
+				"\n" + ((Pelaaja) henkilot[0]).toString() + "\nPanos: " + ((Pelaaja) henkilot[0]).annaPanos() + "\n");
 	}
 
 	public void tulostaLopputulos() {
@@ -235,26 +231,27 @@ public class Pelipoyta {
 		System.out.println("\n" + ((Pelaaja) henkilot[0]).toString() + "\n");
 	}
 
-	public static void cls(){
-	    try {
-	        if (System.getProperty("os.name").contains("Windows"))
-	            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-	        else
-	            Runtime.getRuntime().exec("clear");
-	    } catch (IOException | InterruptedException ex) {}
+	public static void cls() {
+		try {
+			if (System.getProperty("os.name").contains("Windows"))
+				new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+			else
+				Runtime.getRuntime().exec("clear");
+		} catch (IOException | InterruptedException ex) {
+		}
 	}
-	
+
 	public void odota(int ms) {
 		try {
 			Thread.sleep(ms);
-		} catch (InterruptedException e) {}
+		} catch (InterruptedException e) {
+		}
 	}
-	
-	public void suljeSkanneri() {
 
+	public void suljeSkanneri() {
 		skanneri.close();
 	}
-	
+
 	public String teeTiedosto(ArrayList<Integer> peliHistoria, String polku) {
 		try {
 			if (((Pelaaja) henkilot[0]).annaNimi().equals("Lauri")) {
@@ -276,7 +273,6 @@ public class Pelipoyta {
 				w.newLine();
 			}
 			w.close();
-
 		} catch (IOException e) {
 			System.err.println("Tekstin kirjoittaminen tiedostoon epäonnistui.");
 		}
@@ -285,14 +281,14 @@ public class Pelipoyta {
 
 	public void tulostaGnuPlotKomento(String polku) {
 		StringBuilder sb = new StringBuilder();
-		int i = polku.length()-1;
-		while (i>0) {
-			if (polku.charAt(i) == '\\' )
+		int i = polku.length() - 1;
+		while (i > 0) {
+			if (polku.charAt(i) == '\\')
 				break;
 			sb.insert(0, polku.charAt(i));
 			i--;
 		}
-		System.out.println("\nTässä GnuPlot ohjelman komento kuvaajaa varten: \n"
-			+ "plot [0:" + kierros + "][0:" + maxOmaisuus + "] '" + sb.toString() + "' with linespoints ls 1");
+		System.out.println("\nTässä GnuPlot ohjelman komento kuvaajaa varten: \n" + "plot [] [0:] '" + sb.toString()
+				+ "' with linespoints ls 6");
 	}
 }
