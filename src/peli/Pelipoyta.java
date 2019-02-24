@@ -17,6 +17,7 @@ public class Pelipoyta {
 	private int kierros = 0;
 	private Scanner skanneri;
 	private ArrayList<Integer> peliHistoria;
+	private int maxOmaisuus;
 
 	public Pelipoyta() {
 		this.pakka = new Pakka();
@@ -51,6 +52,7 @@ public class Pelipoyta {
 		henkilot[0].asetaNimi(skanneri.nextLine());
 		((Pelaaja) henkilot[0]).asetaOmaisuus(this.sisaanosto());
 		peliHistoria.add(((Pelaaja) henkilot[0]).annaOmaisuus());
+		maxOmaisuus= ((Pelaaja) henkilot[0]).annaOmaisuus();
 
 	}
 
@@ -78,6 +80,7 @@ public class Pelipoyta {
 		this.valintaLoop();
 		this.tarkistaVoittaja();
 		peliHistoria.add(pelaaja.annaOmaisuus());
+		
 	}
 	
 	public int sisaanosto() {
@@ -246,7 +249,7 @@ public class Pelipoyta {
 		skanneri.close();
 	}
 	
-	public void teeTiedosto(ArrayList<Integer> peliHistoria, String polku) {
+	public String teeTiedosto(ArrayList<Integer> peliHistoria, String polku) {
 		try {
 			if (((Pelaaja) henkilot[0]).annaNimi().equals("Lauri")) {
 				String paiva = new SimpleDateFormat("yyyyMMdd_hhmmss").format(new Date());
@@ -260,7 +263,7 @@ public class Pelipoyta {
 			FileOutputStream striimi = new FileOutputStream(tiedosto);
 			OutputStreamWriter osw = new OutputStreamWriter(striimi);
 			BufferedWriter w = new BufferedWriter(osw);
-			w.write("#Kierros #Omaisuus");
+			w.write("#Kierros Omaisuus");
 			w.newLine();
 			for (int k = 0; k < peliHistoria.size(); k++) {
 				w.write(k + " " + peliHistoria.get(k));
@@ -271,7 +274,19 @@ public class Pelipoyta {
 		} catch (IOException e) {
 			System.err.println("Tekstin kirjoittaminen tiedostoon epäonnistui.");
 		}
+		return polku;
 	}
-	
 
+	public void tulostaGnuPlotKomento(String polku) {
+		StringBuilder sb = new StringBuilder();
+		int i = polku.length()-1;
+		while (i>0) {
+			if (polku.charAt(i) == '\\' )
+				break;
+			sb.insert(0, polku.charAt(i));
+			i--;
+		}
+		System.out.println("\nTässä GnuPlot ohjelman komento kuvaajaa varten: \n"
+			+ "plot [0:" + kierros + "][0:" + maxOmaisuus + "] '" + sb.toString() + "' with linespoints ls 1");
+	}
 }
