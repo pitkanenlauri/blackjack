@@ -260,7 +260,7 @@ public class Pelipoyta {
 			FileOutputStream striimi = new FileOutputStream(tiedosto);
 			OutputStreamWriter osw = new OutputStreamWriter(striimi);
 			BufferedWriter w = new BufferedWriter(osw);
-			w.write("#kierros #omaisuus");
+			w.write("#Kierros #Omaisuus");
 			w.newLine();
 			for (int k = 0; k < peliHistoria.size(); k++) {
 				w.write(k + " " + peliHistoria.get(k));
