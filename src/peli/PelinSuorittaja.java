@@ -41,7 +41,7 @@ public class PelinSuorittaja {
 		poyta.suljeSkanneri();
 
 		System.out.println("\nTervetuloa uudelleen " + poyta.annaHenkilot()[0].annaNimi() + "!");
-
+		poyta.odota(2000);
 	}
 
 }

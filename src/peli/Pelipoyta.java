@@ -241,6 +241,12 @@ public class Pelipoyta {
 	    } catch (IOException | InterruptedException ex) {}
 	}
 	
+	public void odota(int ms) {
+		try {
+			Thread.sleep(ms);
+		} catch (InterruptedException e) {}
+	}
+	
 	public void suljeSkanneri() {
 
 		skanneri.close();
