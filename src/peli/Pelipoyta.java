@@ -9,7 +9,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
-
 import henkilot.*;
 
 public class Pelipoyta {
@@ -210,18 +209,27 @@ public class Pelipoyta {
 	}
 
 	public void tulostaTilanne() {
-		System.out.println("______________________________________________________________________");
+		cls();
 		System.out.println("\n" + ((Jakaja) henkilot[1]).piilotettuToString());
 		System.out
 				.println("\n" + ((Pelaaja) henkilot[0]).toString() + "\nPanos: " + ((Pelaaja) henkilot[0]).annaPanos());
 	}
 
 	public void tulostaLopputulos() {
-		System.out.println("______________________________________________________________________");
+		cls();
 		System.out.println("\n" + ((Jakaja) henkilot[1]).toString());
 		System.out.println("\n" + ((Pelaaja) henkilot[0]).toString());
 	}
 
+	public static void cls(){
+	    try {
+	        if (System.getProperty("os.name").contains("Windows"))
+	            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+	        else
+	            Runtime.getRuntime().exec("clear");
+	    } catch (IOException | InterruptedException ex) {}
+	}
+	
 	public void suljeSkanneri() {
 		skanneri.close();
 	}
