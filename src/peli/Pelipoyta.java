@@ -221,9 +221,9 @@ public class Pelipoyta {
 
 	public void tulostaTilanne() {
 		cls();
-		System.out.println("\n" + ((Jakaja) henkilot[1]).piilotettuToString());
+		System.out.println(((Jakaja) henkilot[1]).piilotettuToString());
 		System.out
-				.println("\n" + ((Pelaaja) henkilot[0]).toString() + "\nPanos: " + ((Pelaaja) henkilot[0]).annaPanos() + "\n");
+				.println(((Pelaaja) henkilot[0]).toString() + "\nPanos: " + ((Pelaaja) henkilot[0]).annaPanos() + "\n");
 	}
 
 	public void tulostaLopputulos() {
