@@ -223,12 +223,12 @@ public class Pelipoyta {
 		cls();
 		System.out.println(((Jakaja) henkilot[1]).piilotettuToString());
 		System.out
-				.println(((Pelaaja) henkilot[0]).toString() + "\nPanos: " + ((Pelaaja) henkilot[0]).annaPanos() + "\n");
+				.println("\n" + ((Pelaaja) henkilot[0]).toString() + "\nPanos: " + ((Pelaaja) henkilot[0]).annaPanos() + "\n");
 	}
 
 	public void tulostaLopputulos() {
 		cls();
-		System.out.println("\n" + ((Jakaja) henkilot[1]).toString());
+		System.out.println(((Jakaja) henkilot[1]).toString());
 		System.out.println("\n" + ((Pelaaja) henkilot[0]).toString() + "\n");
 	}
 
