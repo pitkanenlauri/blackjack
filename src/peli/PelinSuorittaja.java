@@ -14,7 +14,7 @@ public class PelinSuorittaja {
 		do {
 			poyta.uusiKierros();
 			if (((Pelaaja) poyta.annaHenkilot()[0]).annaOmaisuus() == 0) {
-				System.out.println("\nAika lähteä kotiin. Rahat on loppu.");
+				System.out.println("Aika lähteä kotiin. Rahat on loppu.");
 				break;
 			}
 			haluaaJatkaa = poyta.tarkistaJatkaminen();
