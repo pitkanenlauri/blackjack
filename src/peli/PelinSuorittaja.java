@@ -26,7 +26,8 @@ public class PelinSuorittaja {
 			System.out.println("\nHaluatko tekstitiedoston omaisuus per kierros pelistäsi? (Vastaa k/e)");
 			char x = poyta.annaSkanneri().next().charAt(0);
 			if (x == 'k') {
-				System.out.println("\nKirjoita polku jonne haluat tekstitiedoston tallennettavan. "
+				Pelipoyta.cls();
+				System.out.println("Kirjoita polku jonne haluat tekstitiedoston tallennettavan. "
 						+ "\nEsim: C:\\Users\\Kayttaja\\Desktop\\peliHistoria.txt");
 				String polku = poyta.annaSkanneri().next();
 				poyta.tulostaGnuPlotKomento(poyta.teeTiedosto(poyta.annaPeliHistoria(), polku));
