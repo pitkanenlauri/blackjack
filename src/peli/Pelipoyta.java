@@ -106,7 +106,7 @@ public class Pelipoyta {
 
 	public int panostus() {
 		Pelaaja pelaaja = (Pelaaja) henkilot[0];
-		
+
 		Pelipoyta.cls();
 		System.out.println("Omaisuus: " + pelaaja.annaOmaisuus());
 		Integer i = null;
