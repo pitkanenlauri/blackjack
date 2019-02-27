@@ -31,7 +31,7 @@ public class PelinSuorittaja {
 						+ "\nEsim: C:\\Users\\Kayttaja\\Desktop\\peliHistoria.txt");
 				String polku = poyta.annaSkanneri().next();
 				poyta.tulostaGnuPlotKomento(poyta.teeTiedosto(poyta.annaPeliHistoria(), polku));
-				System.out.println("\nPaina enter kun olet kopioinut polun.");
+				System.out.println("\nPaina enter kun olet kopioinut komennon.");
 				try {
 					System.in.read();
 				} catch (IOException e) {

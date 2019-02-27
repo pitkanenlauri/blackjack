@@ -106,7 +106,9 @@ public class Pelipoyta {
 
 	public int panostus() {
 		Pelaaja pelaaja = (Pelaaja) henkilot[0];
-
+		
+		Pelipoyta.cls();
+		System.out.println("Omaisuus: " + pelaaja.annaOmaisuus());
 		Integer i = null;
 		do {
 			System.out.println("Aseta " + kierros + ". kierroksen panos:");
@@ -115,8 +117,7 @@ public class Pelipoyta {
 				i = Integer.parseInt(s);
 				if (i <= 0 || i > pelaaja.annaOmaisuus()) {
 					i = null;
-					System.out.println("Panos kuuluu olla nollan ja omaisuuden väliltä! Omaisuutesi on: "
-							+ pelaaja.annaOmaisuus());
+					System.out.println("Panos kuuluu olla nollan ja omaisuuden väliltä!");
 					continue;
 				}
 			} catch (NumberFormatException e) {
