@@ -12,9 +12,7 @@ import java.text.SimpleDateFormat;
 import henkilot.*;
 
 /**
- * Tässä luokassa kootaan koko peli muiden luokkien avulla, eli sisältää esim.
- * kaikki pelin kulkuun liittyvät metodit.
- *
+ * Luokka joka mallintaa pelin kulkuun liittyvät tapahtumat.
  */
 public class Pelipoyta {
 
@@ -22,11 +20,12 @@ public class Pelipoyta {
 	private Henkilo[] henkilot;
 	private int kierros = 0;
 	private Scanner skanneri;
-	// peliHistoria attribuutti on tekstitiedostoa varten.
+	/** Lista johon pelihistoria tallennetaan. */
 	private ArrayList<Integer> peliHistoria;
 
 	/**
-	 * Konstruktori, jossa luodaan mm. sekoitettu pakka.
+	 * Konstruktori alustaa pelipöydän sisältäen sekoitetun korttipakan, skannerin
+	 * pelaajan syötteiden lukua varten ja listan pelihistorian tallentamiseen.
 	 */
 	public Pelipoyta() {
 		this.pakka = new Pakka();
@@ -34,28 +33,29 @@ public class Pelipoyta {
 		this.peliHistoria = new ArrayList<Integer>();
 	}
 
-	public ArrayList<Integer> annaPeliHistoria() {
-		return peliHistoria;
-	}
-
-	public int annaKierros() {
-		return kierros;
-	}
-
 	public Pakka annaPakka() {
 		return pakka;
-	}
-
-	public Scanner annaSkanneri() {
-		return skanneri;
 	}
 
 	public Henkilo[] annaHenkilot() {
 		return this.henkilot;
 	}
 
+	public int annaKierros() {
+		return kierros;
+	}
+
+	public Scanner annaSkanneri() {
+		return skanneri;
+	}
+
+	public ArrayList<Integer> annaPeliHistoria() {
+		return peliHistoria;
+	}
+
 	/**
-	 * Ennen pelin alkua suoritettava metodi.
+	 * Ennen pelin alkua suoritettava metodi. Pelaaja ja jakaja saapuvat pöytään ja
+	 * pelaajalta kysytään nimi ja pelissä käytettävä omaisuus eli sisäänosto.
 	 */
 	public void pelinAlustus() {
 		this.henkilot = new Henkilo[] { new Pelaaja(), new Jakaja() };
@@ -67,8 +67,9 @@ public class Pelipoyta {
 	}
 
 	/**
-	 * Yhteen pelikierrokseen kootut metodit. Panostus, korttien jako ja pelaajan
-	 * valinnat, joiden jälkeen tarkistetaan kierroksen voittaja.
+	 * Yhden kierroksen kulkua mallintava metodi. Pelaajan ja jakajan kädet
+	 * nollataan ja pakka sekoitetaan. Pelaaja panostaa ja kortit jaetaan jota
+	 * seuraa pelaajan valinnat ja lopuksi tarkistetaan voittaja.
 	 */
 	public void uusiKierros() {
 		Pelaaja pelaaja = (Pelaaja) henkilot[0];
@@ -85,22 +86,24 @@ public class Pelipoyta {
 		pelaaja.asetaPanos(this.panostus());
 		pelaaja.asetaOmaisuus(pelaaja.annaOmaisuus() - pelaaja.annaPanos());
 
+		/** Pelaaja ja jakaja saavat kaksi korttia. */
 		for (int j = 0; j < 2; j++) {
 			henkilot[j].uusiKortti(pakka.annaKortti());
 			henkilot[j].uusiKortti(pakka.annaKortti());
 		}
-
 		this.tulostaTilanne();
-		this.valintaLoop();
-		this.tarkistaVoittaja();
-		peliHistoria.add(pelaaja.annaOmaisuus());
 
+		this.valintaLoop();
+
+		this.tarkistaVoittaja();
+
+		peliHistoria.add(pelaaja.annaOmaisuus());
 	}
 
 	/**
 	 * Käyttäjältä kysytään pelin sisäänosto, 0 < sisäänosto <= 1 000 000.
 	 * 
-	 * @return Käyttäjän syöttämä omaisuus kokonaislukuna
+	 * @return Käyttäjän syöttämä omaisuus kokonaislukuna.
 	 */
 	public int sisaanOsto() {
 		Integer i = null;
@@ -127,9 +130,9 @@ public class Pelipoyta {
 	}
 
 	/**
-	 * Käyttäjältä kysytään pelikierroksen panos, 0 < panos <= omaisuus
+	 * Käyttäjältä kysytään pelikierroksen panos, 0 < panos <= omaisuus.
 	 * 
-	 * @return Käyttäjän syöttämä kierroksen panos
+	 * @return Käyttäjän syöttämä kierroksen panos.
 	 */
 	public int panostus() {
 		Pelaaja pelaaja = (Pelaaja) henkilot[0];
@@ -152,31 +155,6 @@ public class Pelipoyta {
 			}
 		} while (i == null);
 		return i;
-	}
-
-	/**
-	 * Tämä metodi suoritetaan kaikkien korttien jakamisen jälkeen, ja ohjaa joko
-	 * voitto(), tasapeli() tai havio() metodiin.
-	 */
-	public void tarkistaVoittaja() {
-		if (henkilot[0].annaSumma() < 22) {
-			while (henkilot[1].annaSumma() < 17) {
-				henkilot[1].uusiKortti(pakka.annaKortti());
-			}
-			if (henkilot[1].annaSumma() > 21) {
-				this.voitto();
-			} else {
-				if (henkilot[0].annaSumma() > henkilot[1].annaSumma()) {
-					this.voitto();
-				} else if (henkilot[0].annaSumma() == henkilot[1].annaSumma()) {
-					this.tasapeli();
-				} else {
-					this.havio();
-				}
-			}
-		} else {
-			this.havio();
-		}
 	}
 
 	/**
@@ -207,6 +185,31 @@ public class Pelipoyta {
 				continue;
 			} else
 				break;
+		}
+	}
+
+	/**
+	 * Tarkistetaan pelin voittaja, metodi ohjaa joko voitto(), havio() tai
+	 * tasapeli() metodiin.
+	 */
+	public void tarkistaVoittaja() {
+		if (henkilot[0].annaSumma() < 22) {
+			while (henkilot[1].annaSumma() < 17) {
+				henkilot[1].uusiKortti(pakka.annaKortti());
+			}
+			if (henkilot[1].annaSumma() > 21) {
+				this.voitto();
+			} else {
+				if (henkilot[0].annaSumma() > henkilot[1].annaSumma()) {
+					this.voitto();
+				} else if (henkilot[0].annaSumma() == henkilot[1].annaSumma()) {
+					this.tasapeli();
+				} else {
+					this.havio();
+				}
+			}
+		} else {
+			this.havio();
 		}
 	}
 
@@ -247,9 +250,9 @@ public class Pelipoyta {
 	}
 
 	/**
-	 * Kysytään käyttäjältä haluaako jatkaa seuraavalle kierrokselle.
+	 * Kysytään käyttäjältä haluaako hän pelata uuden kierroksen.
 	 * 
-	 * @return true jos käyttäjä haluaa jatkaa. Muuten false.
+	 * @return true jos käyttäjä haluaa jatkaa, muuten false.
 	 */
 	public boolean tarkistaJatkaminen() {
 		Character x = null;
@@ -306,8 +309,7 @@ public class Pelipoyta {
 	}
 
 	/**
-	 * Pysäyttää ohjelman annetulla parametrilla, jossa aika syötetään
-	 * millisekunteina.
+	 * Pysäyttää ohjelman annetulla parametrina millisekunneissa annetuksi ajaksi.
 	 * 
 	 * @param ms
 	 */
@@ -323,15 +325,18 @@ public class Pelipoyta {
 	}
 
 	/**
-	 * Metodi luo tekstitiedoston ja tallentaa sen parametrin polkuun. Palauttaa
-	 * polun, koska se saattaa muuttua metodissa.
+	 * Metodi luo tekstitiedoston ja tallentaa sen parametrina annettuun polkuun.
+	 * Palauttaa polun, koska sitä käytetään gnuplot komentoa varten ja se voi
+	 * muuttua metodin suorituksen aikana.
 	 * 
 	 * @param peliHistoria
 	 * @param polku
-	 * @return metodissa saattaa muuttua
+	 * @return Palauttaa polun johon pelihistoria on tallennettu.
 	 */
 	public String teeTiedosto(ArrayList<Integer> peliHistoria, String polku) {
 		try {
+			
+			// Valmiit polut pelin tekijöiden iloksi. :)
 			if (((Pelaaja) henkilot[0]).annaNimi().equals("Lauri")) {
 				String paiva = new SimpleDateFormat("yyyyMMdd_hhmmss").format(new Date());
 				polku = "C:\\Users\\Lauri\\Desktop\\pelit\\peliHistoria" + paiva + ".txt";
@@ -340,6 +345,7 @@ public class Pelipoyta {
 				String paiva = new SimpleDateFormat("yyyyMMdd_hhmmss").format(new Date());
 				polku = "C:\\Users\\Omistaja\\Desktop\\BlackJackPelit\\peliHistoria" + paiva + ".txt";
 			}
+			
 			File tiedosto = new File(polku);
 			FileOutputStream striimi = new FileOutputStream(tiedosto);
 			OutputStreamWriter osw = new OutputStreamWriter(striimi);
@@ -358,7 +364,7 @@ public class Pelipoyta {
 	}
 
 	/**
-	 * Tulostaa käyttäjälle komennon kuvaajan luomista varten GnuPlot ohjelmalla.
+	 * Tulostaa ruudulle komennon kuvaajan piirtämistä varten gnuplot ohjelmalla.
 	 * 
 	 * @param polku
 	 */
@@ -374,4 +380,5 @@ public class Pelipoyta {
 		System.out.println("\nTässä GnuPlot ohjelman komento kuvaajaa varten: \n" + "plot [] [0:] '" + sb.toString()
 				+ "' with linespoints ls 6");
 	}
+
 }

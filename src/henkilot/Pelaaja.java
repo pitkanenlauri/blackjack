@@ -1,10 +1,12 @@
 package henkilot;
 
 import henkilot.Henkilo;
+
 /**
- * Mallintaa Blackjack peliä pelaamaan tulevaa henkilöä.
+ * Luokka mallintaa pelin pelaajaa.
  */
 public class Pelaaja extends Henkilo {
+	
 	private int omaisuus;
 	private int panos;
 
@@ -28,5 +30,5 @@ public class Pelaaja extends Henkilo {
 	public String toString() {
 		return this.annaNimi() + ":" + "\n\n" + this.kasiToString() + "Käden arvo: " + super.annaSumma() + "\n";
 	}
-
+	
 }

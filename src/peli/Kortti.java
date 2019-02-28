@@ -1,9 +1,10 @@
 package peli;
+
 /**
- * Luokka mallintaa Blackjackissa käytettävän korttipakan sisältävää pelikorttia.
+ * Luokka mallintaa yhtä pelikorttia.
  */
 public class Kortti {
-
+	
 	private Maa maa;
 	private Nimi nimi;
 
@@ -23,12 +24,14 @@ public class Kortti {
 	public enum Maa {
 		PATA, HERTTA, RUUTU, RISTI
 	}
+
 	/**
-	 * Kortit nimetty tulostusta varten ja niillä on arvo Blackjackin sääntöjen mukaisesti.
+	 * Kortit nimetty tulostusta varten ja niillä on arvo Blackjackin sääntöjen
+	 * mukaisesti.
 	 */
 	public enum Nimi {
-		ÄSSÄ(11), KAKKONEN(2), KOLMONEN(3), NELONEN(4), VIITONEN(5), KUUTONEN(6), SEISKA(7), KASI(8), YSI(9), KYMPPI(10),
-		JÄTKÄ(10), AKKA(10), KURKO(10);
+		ÄSSÄ(11), KAKKONEN(2), KOLMONEN(3), NELONEN(4), VIITONEN(5), KUUTONEN(6), SEISKA(7), KASI(8), YSI(9),
+		KYMPPI(10), JÄTKÄ(10), AKKA(10), KURKO(10);
 
 		int arvo;
 
@@ -46,5 +49,5 @@ public class Kortti {
 	public String toString() {
 		return maa + " " + nimi;
 	}
-
+	
 }
