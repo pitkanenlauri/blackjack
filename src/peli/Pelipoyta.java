@@ -1,15 +1,18 @@
 package peli;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Scanner;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
-import henkilot.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Scanner;
+
+import henkilot.Henkilo;
+import henkilot.Jakaja;
+import henkilot.Pelaaja;
 
 /**
  * Luokka joka mallintaa pelin kulkuun liittyvät tapahtumat.
