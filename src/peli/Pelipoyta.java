@@ -222,14 +222,15 @@ public class Pelipoyta {
 	public void tulostaTilanne() {
 		cls();
 		System.out.println(((Jakaja) henkilot[1]).piilotettuToString());
-		System.out.println(
-				"\n" + ((Pelaaja) henkilot[0]).toString() + "\nPanos: " + ((Pelaaja) henkilot[0]).annaPanos() + "\n");
+		System.out.println("\n" + ((Pelaaja) henkilot[0]).toString() + "\nPanos: " + ((Pelaaja) henkilot[0]).annaPanos()
+				+ "\nOmaisuus: " + ((Pelaaja) henkilot[0]).annaOmaisuus() + "\n");
 	}
 
 	public void tulostaLopputulos() {
 		cls();
 		System.out.println(((Jakaja) henkilot[1]).toString());
-		System.out.println("\n" + ((Pelaaja) henkilot[0]).toString() + "\n");
+		System.out.println("\n" + ((Pelaaja) henkilot[0]).toString() + "\nOmaisuus: "
+				+ ((Pelaaja) henkilot[0]).annaOmaisuus() + "\n");
 	}
 
 	public static void cls() {

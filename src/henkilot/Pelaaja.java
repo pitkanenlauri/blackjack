@@ -24,7 +24,7 @@ public class Pelaaja extends Henkilo {
 
 	@Override
 	public String toString() {
-		return this.annaNimi() + ":" + "\n\n" + this.kasiToString() + "Käden arvo: " + super.annaSumma() + "\n\n" + "Omaisuus: " + omaisuus;
+		return this.annaNimi() + ":" + "\n\n" + this.kasiToString() + "Käden arvo: " + super.annaSumma() + "\n";
 	}
 
 }
