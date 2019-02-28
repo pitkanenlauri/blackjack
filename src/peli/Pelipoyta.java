@@ -11,14 +11,23 @@ import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import henkilot.*;
 
+/**
+ * T‰ss‰ luokassa kootaan koko peli muiden luokkien avulla, eli sis‰lt‰‰ esim.
+ * kaikki pelin kulkuun liittyv‰t metodit.
+ *
+ */
 public class Pelipoyta {
 
 	private Pakka pakka;
 	private Henkilo[] henkilot;
 	private int kierros = 0;
 	private Scanner skanneri;
+	// peliHistoria attribuutti on tekstitiedostoa varten.
 	private ArrayList<Integer> peliHistoria;
 
+	/**
+	 * Konstruktori, jossa luodaan mm. sekoitettu pakka.
+	 */
 	public Pelipoyta() {
 		this.pakka = new Pakka();
 		this.skanneri = new Scanner(System.in);
@@ -45,6 +54,9 @@ public class Pelipoyta {
 		return this.henkilot;
 	}
 
+	/**
+	 * Ennen pelin alkua suoritettava metodi.
+	 */
 	public void pelinAlustus() {
 		this.henkilot = new Henkilo[] { new Pelaaja(), new Jakaja() };
 		System.out.println("Tervetuloa Black Jack pˆyt‰‰n!" + "\n");
@@ -54,8 +66,13 @@ public class Pelipoyta {
 		peliHistoria.add(((Pelaaja) henkilot[0]).annaOmaisuus());
 	}
 
+	/**
+	 * Yhteen pelikierrokseen kootut metodit. Panostus, korttien jako ja pelaajan
+	 * valinnat, joiden j‰lkeen tarkistetaan kierroksen voittaja.
+	 */
 	public void uusiKierros() {
 		Pelaaja pelaaja = (Pelaaja) henkilot[0];
+
 		for (Henkilo h : henkilot) {
 			if (h.annaKasi().size() != 0) {
 				h.nollaaKasi();
@@ -80,6 +97,11 @@ public class Pelipoyta {
 
 	}
 
+	/**
+	 * K‰ytt‰j‰lt‰ kysyt‰‰n pelin sis‰‰nosto, 0 < sis‰‰nosto <= 1 000 000.
+	 * 
+	 * @return K‰ytt‰j‰n syˆtt‰m‰ omaisuus kokonaislukuna
+	 */
 	public int sisaanOsto() {
 		Integer i = null;
 		do {
@@ -104,6 +126,11 @@ public class Pelipoyta {
 		return i;
 	}
 
+	/**
+	 * K‰ytt‰j‰lt‰ kysyt‰‰n pelikierroksen panos, 0 < panos <= omaisuus
+	 * 
+	 * @return K‰ytt‰j‰n syˆtt‰m‰ kierroksen panos
+	 */
 	public int panostus() {
 		Pelaaja pelaaja = (Pelaaja) henkilot[0];
 
@@ -127,6 +154,10 @@ public class Pelipoyta {
 		return i;
 	}
 
+	/**
+	 * T‰m‰ metodi suoritetaan kaikkien korttien jakamisen j‰lkeen, ja ohjaa joko
+	 * voitto(), tasapeli() tai havio() metodiin.
+	 */
 	public void tarkistaVoittaja() {
 		if (henkilot[0].annaSumma() < 22) {
 			while (henkilot[1].annaSumma() < 17) {
@@ -148,6 +179,10 @@ public class Pelipoyta {
 		}
 	}
 
+	/**
+	 * Kysyy k‰ytt‰j‰lt‰ lis‰‰ kortteja, kunnes pelaajan k‰den arvo > 21 tai
+	 * k‰ytt‰j‰ ei halua enemp‰‰ kortteja.
+	 */
 	public void valintaLoop() {
 		while ((henkilot[0].annaSumma() < 21)) {
 			Character x = null;
@@ -175,6 +210,11 @@ public class Pelipoyta {
 		}
 	}
 
+	/**
+	 * T‰m‰ metodi suoritetaan, jos pelaajan k‰si voittaa jakajan k‰den. Omaisuus
+	 * kasvaa 2*panoksen verran, koska pelaaja saa takasin panoksensa ja lis‰ksi
+	 * voiton.
+	 */
 	public void voitto() {
 		Pelaaja pelaaja = (Pelaaja) henkilot[0];
 		if (pelaaja.annaOmaisuus() + pelaaja.annaPanos() * 2 > 0) {
@@ -186,11 +226,19 @@ public class Pelipoyta {
 		System.out.println("VOITIT JAKAJAN!\n");
 	}
 
+	/**
+	 * T‰m‰ metodi suoritetaan, jos pelaajan k‰si h‰vi‰‰ jakajan k‰den. Omaisuus ei
+	 * muutu, koska pelaaja h‰visi panoksen.
+	 */
 	public void havio() {
 		this.tulostaLopputulos();
 		System.out.println("Jakaja voitti.\n");
 	}
 
+	/**
+	 * T‰m‰ metodi suoritetaan, jos pelaajan ja jakajan k‰den arvo on sama
+	 * kierroksen lopuksi. Omaisuuteen lis‰t‰‰n kierroksen alussa asetettu panos.
+	 */
 	public void tasapeli() {
 		Pelaaja pelaaja = (Pelaaja) henkilot[0];
 		pelaaja.asetaOmaisuus(pelaaja.annaOmaisuus() + pelaaja.annaPanos());
@@ -198,6 +246,11 @@ public class Pelipoyta {
 		System.out.println("Tasapeli. Saat panoksesi takaisin.\n");
 	}
 
+	/**
+	 * Kysyt‰‰n k‰ytt‰j‰lt‰ haluaako jatkaa seuraavalle kierrokselle.
+	 * 
+	 * @return true jos k‰ytt‰j‰ haluaa jatkaa. Muuten false.
+	 */
 	public boolean tarkistaJatkaminen() {
 		Character x = null;
 		do {
@@ -219,6 +272,9 @@ public class Pelipoyta {
 			return false;
 	}
 
+	/**
+	 * Tulostaa k‰ytt‰j‰lle tilanteen, jossa pelin kierros on kesken.
+	 */
 	public void tulostaTilanne() {
 		cls();
 		System.out.println(((Jakaja) henkilot[1]).piilotettuToString());
@@ -226,6 +282,9 @@ public class Pelipoyta {
 				+ "\nOmaisuus: " + ((Pelaaja) henkilot[0]).annaOmaisuus() + "\n");
 	}
 
+	/**
+	 * Tulostaa k‰ytt‰j‰lle tilanteen, jossa pelin kierros on loppunut.
+	 */
 	public void tulostaLopputulos() {
 		cls();
 		System.out.println(((Jakaja) henkilot[1]).toString());
@@ -233,6 +292,9 @@ public class Pelipoyta {
 				+ ((Pelaaja) henkilot[0]).annaOmaisuus() + "\n");
 	}
 
+	/**
+	 * Tyhjent‰‰ k‰ytt‰j‰n ruudun.
+	 */
 	public static void cls() {
 		try {
 			if (System.getProperty("os.name").contains("Windows"))
@@ -243,6 +305,12 @@ public class Pelipoyta {
 		}
 	}
 
+	/**
+	 * Pys‰ytt‰‰ ohjelman annetulla parametrilla, jossa aika syˆtet‰‰n
+	 * millisekunteina.
+	 * 
+	 * @param ms
+	 */
 	public void odota(int ms) {
 		try {
 			Thread.sleep(ms);
@@ -254,6 +322,14 @@ public class Pelipoyta {
 		skanneri.close();
 	}
 
+	/**
+	 * Metodi luo tekstitiedoston ja tallentaa sen parametrin polkuun. Palauttaa
+	 * polun, koska se saattaa muuttua metodissa.
+	 * 
+	 * @param peliHistoria
+	 * @param polku
+	 * @return metodissa saattaa muuttua
+	 */
 	public String teeTiedosto(ArrayList<Integer> peliHistoria, String polku) {
 		try {
 			if (((Pelaaja) henkilot[0]).annaNimi().equals("Lauri")) {
@@ -281,6 +357,11 @@ public class Pelipoyta {
 		return polku;
 	}
 
+	/**
+	 * Tulostaa k‰ytt‰j‰lle komennon kuvaajan luomista varten GnuPlot ohjelmalla.
+	 * 
+	 * @param polku
+	 */
 	public void tulostaGnuPlotKomento(String polku) {
 		StringBuilder sb = new StringBuilder();
 		int i = polku.length() - 1;
