@@ -1,5 +1,9 @@
 package henkilot;
 
+/**
+ * Luokka mallintaa pelissä osallisina olevia henkilöitä.
+ */
+
 import java.util.ArrayList;
 
 import peli.Kortti;
@@ -33,6 +37,10 @@ public abstract class Henkilo {
 		kasi.clear();
 	}
 
+	/**
+	 * Metodi laskee henkilon käden korttien arvon Blackjackin sääntöjen mukaisesti.
+	 * @return Kädessä olevien korttien yhteenlaskettu arvo kokonaislukuna.
+	 */
 	public int annaSumma() {
 		int summa = 0;
 		int assat = 0;
@@ -47,7 +55,10 @@ public abstract class Henkilo {
 		}
 		return summa;
 	}
-
+	/**
+	 * Yhdistää henkilön käden kortit allekkain tulostusta varten.
+	 * @return Kortit kädessä.
+	 */
 	public String kasiToString() {
 		String s = "";
 		for (Kortti k : kasi) {

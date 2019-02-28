@@ -1,7 +1,9 @@
 package henkilot;
 
 import henkilot.Henkilo;
-
+/**
+ * Mallintaa Blackjack peliä pelaamaan tulevaa henkilöä.
+ */
 public class Pelaaja extends Henkilo {
 	private int omaisuus;
 	private int panos;

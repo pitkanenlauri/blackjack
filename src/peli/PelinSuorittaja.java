@@ -3,11 +3,13 @@ package peli;
 import peli.Pelipoyta;
 import java.io.IOException;
 import henkilot.Pelaaja;
-
+/**
+ * Luokka pyörittää Blackjack peliä.
+ */
 public class PelinSuorittaja {
 
 	public static void main(String[] args) {
-
+		
 		boolean haluaaJatkaa = true;
 		Pelipoyta poyta = new Pelipoyta();
 		poyta.pelinAlustus();
@@ -21,7 +23,7 @@ public class PelinSuorittaja {
 			haluaaJatkaa = poyta.tarkistaJatkaminen();
 
 		} while (haluaaJatkaa);
-
+		
 		do {
 			System.out.println("\nHaluatko tekstitiedoston omaisuus per kierros pelistäsi? (Vastaa k/e)");
 			char x = poyta.annaSkanneri().next().charAt(0);

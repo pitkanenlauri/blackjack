@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import peli.Kortti;
-
+/**
+ * Luokka mallintaa Blackjack peliss‰ k‰ytett‰v‰‰ korttipakkaa. Pakka t‰ytet‰‰n Kortti luokan olioilla.
+ */
 public class Pakka {
 	private ArrayList<Kortti> pakka;
 	private int i;
-
+	
+	/**
+	 * Konstruktori luo uuden pakan johon tulee 52 Kortti olioita 13 per jokaista nelj‰‰ maata ja sekoittaa pakan satunnaiseen j‰rjestykseen k‰yttˆ‰ varten.
+	 */
 	public Pakka() {
 		pakka = new ArrayList<Kortti>();
 		for (Kortti.Maa m : Kortti.Maa.values()) {
